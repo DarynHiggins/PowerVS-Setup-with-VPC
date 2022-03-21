@@ -57,7 +57,18 @@
 3. Check that location is set to zone Sydney 2.
 4. Enter a name for the VSI.
 5. Select the appropriate Resource Group, if not Default.
-6. Select Operating system image. We created two VSIs - one using Red Hat Enterprise Linux, with Version ibm-redhat-8-4-minimal-amd64-2
+6. Select Operating system image. We created two VSIs - one using Red Hat Enterprise Linux, with Version ibm-redhat-8-4-minimal-amd64-2, and the other as a Windows Server, with Version ibm-windows-server-2016-full-standard-amd64-8.
+7. Adjust the Profile, if needed - View all profiles - bx2-4x16 was used for Windows. The default bx2-2x8 was used for Linux.
+8. Select and existing SSH key (or create a new one)
+9. For Networking, select the VPC created above.
+10. For Network Interfaces, check that the subnet for the Sydney 2 zone is selected.
+11. Click Create virtual server
+
+## Create Cloud Connect
+
+This will provide the connection between the private subnet of your PowerVS Service and the private subnet of your VPC.
+
+Note that it may be required to turn on VRF (Virtual Router Forwarding) on your account, which requires that a support ticket be raised on the Engineering Team. Instructions here.
     
 
 
