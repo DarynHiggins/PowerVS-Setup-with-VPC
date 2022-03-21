@@ -70,6 +70,18 @@ This will provide the connection between the private subnet of your PowerVS Serv
 
 Note that it may be required to turn on VRF (Virtual Router Forwarding) on your account, which requires that a support ticket be raised on the Engineering Team. Instructions here.
     
+Creating the Cloud Connect (also known as Direct Link Connect 2.0) is best done from the IBM Cloud Shell, which is accessed from the top right of the IBM Cloud web console. Once at the console:
+```
+ic target -r au-syd
+ic target -g <resource group>
+ic is vpcs
+ic is vpc <your_vpc>
+```
+From the above, get the crn, which will look like: crn:v1:bluemix:public:is:au-syd:a/1dd42ed8fa355cd281b09533a423511d::vpc:r026-7af92dbe-8e45-4294-a802-2863dc213039
+```
+ic pi conc <dl_connection_name> --speed 5000 --vpc --vpcID <your_crn> --global-routing
+```    
+   
 
 
 [Direct Link Connect]: https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-ordering-direct-link-connect#steps-to-order-direct-link-connect
