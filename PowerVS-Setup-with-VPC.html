@@ -1,0 +1,139 @@
+<h1 id="stepstocreateandconnectpowervswithavsitoavpcwithavsi">Steps to create and connect PowerVS with a VSI to a VPC with a VSI</h1>
+
+<h2 id="preliminaryrequirements">Preliminary requirements</h2>
+
+<ol>
+<li>Create an IBM Cloud account. To create an IBM Cloud account, see <a href="https://cloud.ibm.com/registration">Signing up for the IBM Cloud</a>.</li>
+
+<li>Review the Identity and Access Management (IAM) information at <a href="https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-managing-resources-and-users">Managing Power Systems Virtual Servers (IAM)</a>.</li>
+
+<li>Create a public and private SSH key that you can use to securely connect to your Power Systems Virtual Server. To create a public and private SSH key, see <a href="https://cloud.ibm.com/docs/ssh-keys?topic=ssh-keys-adding-an-ssh-key">Adding an SSH key</a>.</li>
+
+<li>(Optional) If you want to use a custom AIX or IBM i image, you must create an IBM Cloud Object Storage (COS) and upload it there. For more information, see <a href="https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-deploy-custom-image">Deploying a custom image within a Power Systems Virtual Server</a>. Note that we did not need or use this with our demo.</li>
+
+<li>(Optional) If you want to use a private network to connect to a Power Systems Virtual Server instance, order the <a href="https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-ordering-direct-link-connect#steps-to-order-direct-link-connect">Direct Link Connect</a> service. You cannot create a private network during the VM provisioning process. You must first use the Power Systems Virtual Server user interface, command line interface (CLI), or application programming interfaced (API) to create one.</li>
+</ol>
+
+<h2 id="setupthepowervsservice">Setup the PowerVS Service</h2>
+
+<ol>
+<li>Log in to the IBM catalog with your credentials.</li>
+
+<li>In the catalog's search box, type Power Systems Virtual Server and click the Power Systems Virtual Server tile.</li>
+
+<li>Specify a name for your service and choose where you'd like to deploy your Power Systems Virtual Server instance. For our demo we chose Sydney 04 (syd04). Optionally, you can select a Resource Group if you wish to separate this service from other resourcess. Otherwise, the Default Resource Group is used.</li>
+
+<li>Click Create. You are redirected to the Resource List.</li>
+
+<li>From the Resource List, select your Power Systems Virtual Server service under Services.</li>
+</ol>
+
+<h2 id="createaprivatesubnet">Create a Private Subnet</h2>
+
+<ol>
+<li>Click on Subnets from the left menu</li>
+
+<li>Click Create Subnet</li>
+
+<li>Give the Subnet a name</li>
+
+<li>Set the CIDR, eg. 192.168.50.0/24</li>
+
+<li>(Note that a Cloud Connection will be needed, but will be set after creation of the VPC)</li>
+
+<li>Click Create Subnet</li>
+</ol>
+
+<h2 id="createandconfigureanibmivirtualserverinstance">Create and Configure an IBM i Virtual Server Instance</h2>
+
+<ol>
+<li>Click Create instance under Virtual server instances. </li>
+
+<li>Give the instance a name</li>
+
+<li>Choose an existing SSH key or create one to securely connect to your Power Systems Virtual Server.</li>
+
+<li>For Boot Image, choose IBM i and select the latest available image (in our case IBMi-74-05-2984-1). No extra IBM i licenses are needed.</li>
+
+<li>For Tier, choose Tier 3 (3 IOPs / GB ).</li>
+
+<li>Select Machine Type as s922.</li>
+
+<li>Increase memory to 8 GB.</li>
+
+<li>For Public Networks, we turned this on, however it is not required.</li>
+
+<li>For Private Network, select the Subnet created above.</li>
+
+<li>Select "I agree to the Terms and conditions"</li>
+
+<li>All other parameters can be left at their defaults. Click Create instance</li>
+</ol>
+
+<h2 id="createavirtualprivatecloud">Create a Virtual Private Cloud</h2>
+
+<ol>
+<li>From the top left menu, select VPC Infrastructure.</li>
+
+<li>From the left menu, under Networking, select VPCs.</li>
+
+<li>Select Region as Sydney.</li>
+
+<li>Click Create.</li>
+
+<li>Give the VPC a name.</li>
+
+<li>Change the Resource Group to match PowerVS (or leave as Default if the PowerVS Service is in Default).</li>
+
+<li>The VPC will have subnets created for all 3 zones. Take note of the subnet for Sydney 2 zone - name and CIDR.</li>
+
+<li>Click Create virtual private cloud</li>
+</ol>
+
+<h2 id="createavirtualserverinstance">Create a Virtual Server Instance</h2>
+
+<ol>
+<li>From the VPC Infrastructure menu on the left, under Compute, select Virtual server instances.</li>
+
+<li>Click Create.</li>
+
+<li>Check that location is set to zone Sydney 2.</li>
+
+<li>Enter a name for the VSI.</li>
+
+<li>Select the appropriate Resource Group, if not Default.</li>
+
+<li>Select Operating system image. We created two VSIs - one using Red Hat Enterprise Linux, with Version ibm-redhat-8-4-minimal-amd64-2, and the other as a Windows Server, with Version ibm-windows-server-2016-full-standard-amd64-8.</li>
+
+<li>Adjust the Profile, if needed - View all profiles - bx2-4x16 was used for Windows. The default bx2-2x8 was used for Linux.</li>
+
+<li>Select and existing SSH key (or create a new one)</li>
+
+<li>For Networking, select the VPC created above.</li>
+
+<li>For Network Interfaces, check that the subnet for the Sydney 2 zone is selected.</li>
+
+<li>Click Create virtual server</li>
+</ol>
+
+<h2 id="createcloudconnect">Create Cloud Connect</h2>
+
+<p>This will provide the connection between the private subnet of your PowerVS Service and the private subnet of your VPC.</p>
+
+<p>Note that it may be required to turn on VRF (Virtual Router Forwarding) on your account, which requires that a support ticket be raised on the Engineering Team. Instructions here.</p>
+
+<p>Creating the Cloud Connect (also known as Direct Link Connect 2.0) is best done from the IBM Cloud Shell, which is accessed from the top right of the IBM Cloud web console. Once at the console:</p>
+
+<pre><code>ic target -r au-syd
+ic target -g &lt;resource group&gt;
+ic is vpcs
+ic is vpc &lt;your_vpc&gt;
+</code></pre>
+
+<p>From the above, get the crn, which will look like: crn:v1:bluemix:public:is:au-syd:a/1dd42ed8fa355cd281b09533a423511d::vpc:r026-7af92dbe-8e45-4294-a802-2863dc213039</p>
+
+<pre><code>ic pi conc &lt;dl_connection_name&gt; --speed 5000 --vpc --vpcID &lt;your_crn&gt; --global-routing
+</code></pre>
+
+<pre><code>
+</code></pre>
