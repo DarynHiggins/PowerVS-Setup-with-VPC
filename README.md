@@ -53,8 +53,11 @@
 ## Create a Virtual Server Instance
 
 1. From the VPC Infrastructure menu on the left, under Compute, select Virtual server instances.
-2. Click Create
-3. 
+2. Click Create.
+3. Check that location is set to zone Sydney 2.
+4. Enter a name for the VSI.
+5. Select the appropriate Resource Group, if not Default.
+6. Select Operating system image. We created two VSIs - one using Red Hat Enterprise Linux, with Version ibm-redhat-8-4-minimal-amd64-2
     
 
 
