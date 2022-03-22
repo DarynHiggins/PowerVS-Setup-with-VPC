@@ -1,4 +1,4 @@
-# Steps to create and connect PowerVS with a VSI to a VPC with a VSI
+# Creating and connecting PowerVS with a VSI to a VPC with a VSI
 
 ## Preliminary requirements
 
@@ -103,9 +103,15 @@ You can check the status with:
 ```
 ic pi con 25d1bc31-44da-4d4d-97e7-ae18d2974db1
 ```
-That is, ic pi con <ID> , as given above from the ic pi conc command.
+That is,  ```ic pi con <ID> ```  as given above from the ic pi conc command.
     
-Once the Direct Link Connection is created, you may need to add a static route to each server to ensure local traffic
+Once the Direct Link Connection is created, you may need to add a static route to each server to ensure local traffic goes through the private subnets rather than through the external IPs. Eg. on Linux:
+```
+ip route add 192.168.50.0/24 via 10.245.64.1
+```
+
+You should now be able to ping and connect from the Instances within the VPC to the Instances within the PowerVS Service.
+
 
 [Direct Link Connect]: https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-ordering-direct-link-connect#steps-to-order-direct-link-connect
 [Deploying a custom image within a Power Systems Virtual Server]: https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-deploy-custom-image
