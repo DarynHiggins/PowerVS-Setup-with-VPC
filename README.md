@@ -81,8 +81,31 @@ From the above, get the crn, which will look like: crn:v1:bluemix:public:is:au-s
 ```
 ic pi conc <dl_connection_name> --speed 5000 --vpc --vpcID <your_crn> --global-routing
 ```    
-   
+This will come back with something like: 
+```
+Cloud connection pvs-dl-150122 creation accepted. Please check the status later. 
+                    
+ID               25d1bc31-44da-4d4d-97e7-ae18d2974db1   
+Name             pvs-dl-150122   
+Link Status      idle   
+Speed            5000   
+Creation Date    2022-03-11T01:45:07.527Z   
+Global Routing   true   
+IBM IPAddress    169.254.0.1/30   
+User IPAddress   169.254.0.2/30   
+Metered          false   
+              
+Job ID     f181a918-eecb-4d91-a8e2-b23d545b3d99   
+Job Link   pcloud/v1/cloud-instances/99937570ffa045919937418ba0202bc6/jobs/f181a918-eecb-4d91-a8e2-b23d535b3d99
 
+```
+You can check the status with:
+```
+ic pi con 25d1bc31-44da-4d4d-97e7-ae18d2974db1
+```
+That is, ic pi con <ID> , as given above from the ic pi conc command.
+    
+Once the Direct Link Connection is created, you may need to add a static route to each server to ensure local traffic
 
 [Direct Link Connect]: https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-ordering-direct-link-connect#steps-to-order-direct-link-connect
 [Deploying a custom image within a Power Systems Virtual Server]: https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-deploy-custom-image
