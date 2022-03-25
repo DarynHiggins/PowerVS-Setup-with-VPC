@@ -112,6 +112,9 @@ ip route add 192.168.50.0/24 via 10.245.64.1
 
 You should now be able to ping and connect from the Instances within the VPC to the Instances within the PowerVS Service.
 
+Note that by default, the VPC subnet is created with a Security Group (firewall) that only allows certain inbound ports. To add or modify:
+In VPC Infrastructure > Network > Security Groups > pick the Security group used by the VSI > Rules > Create or Edit (both Inbound and Outbound).
+
 
 [Direct Link Connect]: https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-ordering-direct-link-connect#steps-to-order-direct-link-connect
 [Deploying a custom image within a Power Systems Virtual Server]: https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-deploy-custom-image
