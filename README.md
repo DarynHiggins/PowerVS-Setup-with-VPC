@@ -18,17 +18,17 @@
 
 ## Create a Private Subnet
 
-1. Click on Subnets from the left menu
-2. Click Create Subnet
-3. Give the Subnet a name
-4. Set the CIDR, eg. 192.168.50.0/24
-5. (Note that a Cloud Connection will be needed, but will be set after creation of the VPC)
-6. Click Create Subnet
+1. Click on Subnets from the left menu.
+2. Click Create Subnet.
+3. Give the Subnet a name.
+4. Set the CIDR, eg. 192.168.50.0/24.
+5. (Note that a Cloud Connection will be needed, but will be set after creation of the VPC).
+6. Click Create Subnet.
 
 ## Create and Configure an IBM i Virtual Server Instance
 
 1. Click Create instance under Virtual server instances. 
-2. Give the instance a name
+2. Give the instance a name.
 3. Choose an existing SSH key or create one to securely connect to your Power Systems Virtual Server.
 4. For Boot Image, choose IBM i and select the latest available image (in our case IBMi-74-05-2984-1). No extra IBM i licenses are needed.
 5. For Tier, choose Tier 3 (3 IOPs / GB ).
@@ -37,7 +37,7 @@
 8. For Public Networks, we turned this on, however it is not required.
 9. For Private Network, select the Subnet created above.
 10. Select "I agree to the Terms and conditions"
-11. All other parameters can be left at their defaults. Click Create instance
+11. All other parameters can be left at their defaults. Click Create instance.
 
 ## Create a Virtual Private Cloud
 
@@ -48,7 +48,7 @@
 5. Give the VPC a name.
 6. Change the Resource Group to match PowerVS (or leave as Default if the PowerVS Service is in Default).
 7. The VPC will have subnets created for all 3 zones. Take note of the subnet for Sydney 2 zone - name and CIDR.
-8. Click Create virtual private cloud
+8. Click Create virtual private cloud.
 
 ## Create a Virtual Server Instance
 
@@ -59,10 +59,10 @@
 5. Select the appropriate Resource Group, if not Default.
 6. Select Operating system image. We created two VSIs - one using Red Hat Enterprise Linux, with Version ibm-redhat-8-4-minimal-amd64-2, and the other as a Windows Server, with Version ibm-windows-server-2016-full-standard-amd64-8.
 7. Adjust the Profile, if needed - View all profiles - bx2-4x16 was used for Windows. The default bx2-2x8 was used for Linux.
-8. Select and existing SSH key (or create a new one)
+8. Select an existing SSH key (or create a new one).
 9. For Networking, select the VPC created above.
 10. For Network Interfaces, check that the subnet for the Sydney 2 zone is selected.
-11. Click Create virtual server
+11. Click Create virtual server.
 
 ## Create Cloud Connect
 
@@ -77,7 +77,9 @@ ic target -g <resource group>
 ic is vpcs
 ic is vpc <your_vpc>
 ```
-From the above, get the crn, which will look like: crn:v1:bluemix:public:is:au-syd:a/1dd42ed8fa355cd281b09533a423511d::vpc:r026-7af92dbe-8e45-4294-a802-2863dc213039
+From the above, get the crn, which will look like: 
+crn:v1:bluemix:public:is:au-syd:a/1dd42ed8fa355cd281b09533a423511d::vpc:r026-7af92dbe-8e45-4294-a802-2863dc213039
+
 ```
 ic pi conc <dl_connection_name> --speed 5000 --vpc --vpcID <your_crn> --global-routing
 ```    
