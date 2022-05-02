@@ -68,7 +68,7 @@
 
 This will provide the connection between the private subnet of your PowerVS Service and the private subnet of your VPC.
 
-Note that it may be required to turn on VRF (Virtual Router Forwarding) on your account, which requires that a support ticket be raised on the Engineering Team. Instructions here.
+Note that it may be required to turn on VRF (Virtual Router Forwarding) on your account, which requires that a support ticket be raised on the Engineering Team. [Instructions here](https://cloud.ibm.com/docs/account?topic=account-vrf-service-endpoint&mhsrc=ibmsearch_a&mhq=VRF&interface=ui).
     
 Creating the Cloud Connect (also known as Direct Link Connect 2.0) is best done from the IBM Cloud Shell, which is accessed from the top right of the IBM Cloud web console. Once at the console:
 ```
