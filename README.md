@@ -74,10 +74,12 @@ Creating the Cloud Connect (also known as Direct Link Connect 2.0) is best done 
 ```
 ic target -r au-syd
 ic target -g <resource group>
+ic pi service-list
+ic pi service-target <crn of the PowerVS Service>
 ic is vpcs
 ic is vpc <your_vpc>
 ```
-From the above, get the crn, which will look like: 
+From the above, get the crn of the VPC, which will look like: 
 crn:v1:bluemix:public:is:au-syd:a/1dd42ed8fa355cd281b09533a423511d::vpc:r026-7af92dbe-8e45-4294-a802-2863dc213039
 
 ```
